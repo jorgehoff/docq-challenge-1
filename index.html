@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>DocQ - DEV Challenge #1 by Jorge Hoffmann</title>
+</head>
+<body>
+	<div id="data"></div>
+	<script>
+		var formatter = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', });
+		var url = "https://api.coinbase.com/v2/prices/BTC-USD/spot";
+		var xhr = new XMLHttpRequest();
+		xhr.open("GET", url);
+		xhr.setRequestHeader("Accept", "application/json");
+		xhr.onreadystatechange = function () {
+			if (xhr.readyState === 4) { // 4 = DONE
+				var parsed = JSON.parse(xhr.responseText);
+				var timestamp = new Date();
+				var timestamp = timestamp.toLocaleString();
+				document.getElementById("data").innerHTML = 'Crypto: bitcoin (' + parsed['data']['base'] + '). Currency: ' + parsed['data']['currency'] + '. Value: US' + formatter.format(parsed['data']['amount']) + '<br/> Time of search: ' + timestamp + '<br/>Source: Coinbase (https://developers.coinbase.com/api/v2)';
+			}
+		};
+		xhr.send();
+	</script>
+</body>
+</html>
